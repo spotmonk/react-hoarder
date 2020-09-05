@@ -4,9 +4,25 @@ import authData from '../../../helpers/data/authData';
 
 class Home extends React.Component {
   state = {
+    itemId: '',
     itemName: '',
     itemImage: '',
     itemDescription: '',
+  }
+
+  componentDidMount() {
+    const { editId } = this.props.match.params;
+    itemData.getSingleItem(editId)
+      .then((res) => {
+        const item = res.data;
+        this.setState({
+          itemId: this.props.match.params.editId,
+          itemName: item.itemName,
+          itemImage: item.itemImage,
+          itemDescription: item.itemDescription,
+        });
+      })
+      .catch((err) => console.error('get single item failed', err));
   }
 
   changeItemNameEvent = (e) => {
@@ -32,9 +48,8 @@ class Home extends React.Component {
       itemDescription: this.state.itemDescription,
       uid: authData.getUid(),
     };
-
-    itemData.createItem(tempObj)
-      .then(() => this.props.history.push('/stuff'))
+    itemData.updateItem(this.state.itemId, tempObj)
+      .then((res) => this.props.history.push('/stuff'))
       .catch((err) => console.error('failed to create', err));
   }
 
@@ -43,7 +58,7 @@ class Home extends React.Component {
 
     return (
       <div className="NewItem col-12">
-        <h1>New Item</h1>
+        <h1>Edit Item</h1>
         <form className="col-6 offset-3">
           <div className="form-group">
             <label htmlFor="itemName">Item Name</label>
@@ -51,7 +66,7 @@ class Home extends React.Component {
               type="text"
               className="form-control"
               id="itemName"
-              placeholder="Enter Item Name"
+              placeholder={itemName}
               value={itemName}
               onChange={this.changeItemNameEvent}
             />
@@ -62,7 +77,6 @@ class Home extends React.Component {
               type="text"
               className="form-control"
               id="itemImage"
-              placeholder="Enter Item Image Url"
               value={itemImage}
               onChange={this.changeItemImageEvent}
             />
@@ -73,7 +87,6 @@ class Home extends React.Component {
               type="text"
               className="form-control"
               id="itemDescription"
-              placeholder="Enter Item Description"
               value={itemDescription}
               onChange={this.changeItemDescriptionEvent}
             />
