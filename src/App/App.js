@@ -11,8 +11,11 @@ import 'firebase/auth';
 
 import fbConnection from '../helpers/data/connection';
 import MyNavBar from '../components/pages/MyNavBar/MyNavBar';
-import Home from '../components/pages/Home/Home';
+import Stuff from '../components/pages/Stuff/Stuff';
 import Auth from '../components/pages/Auth/Auth';
+import Home from '../components/pages/Home/Home';
+import NewItem from '../components/pages/NewItem/NewItem';
+import SingleItem from '../components/pages/SingleItem/SingleItem';
 
 fbConnection();
 
@@ -55,6 +58,9 @@ class App extends React.Component {
             <div className="container">
               <Switch>
                 <PrivateRoute path="/home" component={Home} authed={authed} />
+                <PrivateRoute path="/stuff/new" component={NewItem} authed={authed} />
+                <PrivateRoute path="/stuff/:itemId" component={SingleItem} authed={authed} />
+                <PrivateRoute path="/stuff" component={Stuff} authed={authed} />
                 <PublicRoute path="/auth" component={Auth} authed={authed} />
                 <Redirect from="*" to="/home" />
               </Switch>
