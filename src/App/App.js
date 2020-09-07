@@ -16,6 +16,7 @@ import Auth from '../components/pages/Auth/Auth';
 import Home from '../components/pages/Home/Home';
 import NewItem from '../components/pages/NewItem/NewItem';
 import SingleItem from '../components/pages/SingleItem/SingleItem';
+import EditItem from '../components/pages/EditItem/EditItem';
 
 fbConnection();
 
@@ -60,6 +61,7 @@ class App extends React.Component {
                 <PrivateRoute path="/home" component={Home} authed={authed} />
                 <PrivateRoute path="/stuff/new" component={NewItem} authed={authed} />
                 <PrivateRoute path="/stuff/:itemId" component={SingleItem} authed={authed} />
+                <PrivateRoute path="/edit/:editId" component={EditItem} authed={authed} />
                 <PrivateRoute path="/stuff" component={Stuff} authed={authed} />
                 <PublicRoute path="/auth" component={Auth} authed={authed} />
                 <Redirect from="*" to="/home" />
